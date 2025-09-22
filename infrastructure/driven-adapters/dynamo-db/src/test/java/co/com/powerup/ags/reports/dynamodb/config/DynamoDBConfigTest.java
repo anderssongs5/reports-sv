@@ -22,29 +22,26 @@ class DynamoDBConfigTest {
     private final DynamoDBConfig dynamoDBConfig = new DynamoDBConfig();
 
     @Test
-    void testAmazonDynamoDB() {
-
+    void shouldCreateDynamoDbAsyncClientWithCorrectConfiguration() {
         DynamoDbAsyncClient result = dynamoDBConfig.amazonDynamoDB(
-                "http://aws.dynamo.test",
-                "region",
+                "http://localhost:8000",
+                "us-east-1",
                 publisher);
 
         assertNotNull(result);
     }
 
     @Test
-    void testAmazonDynamoDBAsync() {
-
+    void shouldCreateDynamoDbAsyncClientForDevProfile() {
         DynamoDbAsyncClient result = dynamoDBConfig.amazonDynamoDBAsync(
                 publisher,
-                "region");
+                "us-east-1");
 
         assertNotNull(result);
     }
 
-
     @Test
-    void testGetDynamoDbEnhancedAsyncClient() {
+    void shouldCreateEnhancedClientFromRegularClient() {
         DynamoDbEnhancedAsyncClient result = dynamoDBConfig.getDynamoDbEnhancedAsyncClient(dynamoDbAsyncClient);
 
         assertNotNull(result);

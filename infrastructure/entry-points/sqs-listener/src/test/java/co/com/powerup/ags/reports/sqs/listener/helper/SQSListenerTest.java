@@ -1,6 +1,9 @@
 package co.com.powerup.ags.reports.sqs.listener.helper;
 
-import co.com.powerup.ags.reports.sqs.listener.SQSProcessor;
+import reactor.core.publisher.Mono;
+import software.amazon.awssdk.services.sqs.model.Message;
+
+import java.util.function.Function;
 import co.com.powerup.ags.reports.sqs.listener.config.SQSProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +61,7 @@ class SQSListenerTest {
         var sqsListener = SQSListener.builder()
                 .client(asyncClient)
                 .properties(sqsProperties)
-                .processor(new SQSProcessor())
+                .processor(message -> Mono.empty())
                 .operation("operation")
                 .build();
 
