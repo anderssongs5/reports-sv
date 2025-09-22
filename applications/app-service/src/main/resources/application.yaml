@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: "Reports"
+    name: "reports-sv"
   devtools:
     add-properties: false
   h2:
@@ -26,6 +26,8 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+security:
+  introspectionBaseUrl: "http://localhost:8080"
 entrypoint:
   sqs:
     region: "us-east-1"

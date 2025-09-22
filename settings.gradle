@@ -12,7 +12,7 @@ buildCache {
     }
 }
 
-rootProject.name = 'Reports'
+rootProject.name = 'reports-sv'
 
 include ':app-service'
 include ':model'
