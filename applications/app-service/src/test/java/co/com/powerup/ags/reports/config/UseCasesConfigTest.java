@@ -1,11 +1,14 @@
 package co.com.powerup.ags.reports.config;
 
+import co.com.powerup.ags.reports.model.approvedloanreport.gateways.ApprovedLoanTransactionRepository;
+import co.com.powerup.ags.reports.model.approvedloanreport.gateways.GlobalSummaryReportRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class UseCasesConfigTest {
 
@@ -33,6 +36,16 @@ public class UseCasesConfigTest {
         @Bean
         public MyUseCase myUseCase() {
             return new MyUseCase();
+        }
+        
+        @Bean
+        public ApprovedLoanTransactionRepository approvedLoanTransactionRepository() {
+            return mock(ApprovedLoanTransactionRepository.class);
+        }
+        
+        @Bean
+        public GlobalSummaryReportRepository globalSummaryReportRepository() {
+            return mock(GlobalSummaryReportRepository.class);
         }
     }
 
