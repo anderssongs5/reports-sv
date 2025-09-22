@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8082
 spring:
   application:
     name: "Reports"
@@ -12,13 +12,9 @@ spring:
   profiles:
     include: null
 aws:
+  region: "us-east-1"
   dynamodb:
-    endpoint: "http://localhost:8000"
-adapter:
-  sqs:
-    region: "us-east-1"
-    queueUrl: "http://localhost:4566/000000000000/sample"
-    endpoint: "http://localhost:4566 # For localstack only"
+    endpoint: "https://dynamodb.us-east-1.amazonaws.com"
 management:
   endpoints:
     web:
@@ -30,3 +26,12 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+entrypoint:
+  sqs:
+    region: "us-east-1"
+    endpoint: "https://sqs.us-east-1.amazonaws.com/865937366609/crediya-approvedReport"
+    queueUrl: "https://sqs.us-east-1.amazonaws.com/865937366609/crediya-approvedReport"
+    waitTimeSeconds: 20
+    maxNumberOfMessages: 10
+    visibilityTimeoutSeconds: 10
+    numberOfThreads: 1

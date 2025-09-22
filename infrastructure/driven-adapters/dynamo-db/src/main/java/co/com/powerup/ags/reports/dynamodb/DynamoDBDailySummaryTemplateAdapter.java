@@ -1,8 +1,8 @@
 package co.com.powerup.ags.reports.dynamodb;
 
 import co.com.powerup.ags.reports.dynamodb.helper.TemplateAdapterOperations;
-import co.com.powerup.ags.reports.model.approvedloanreport.ApprovedLoanReport;
-import co.com.powerup.ags.reports.model.approvedloanreport.gateways.ApprovedLoanReportRepository;
+import co.com.powerup.ags.reports.model.approvedloanreport.DailySummaryReport;
+import co.com.powerup.ags.reports.model.approvedloanreport.gateways.DailySummaryReportRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
@@ -14,24 +14,26 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import java.util.List;
 
 @Repository
-public class DynamoDBApprovedLoanTemplateAdapter extends TemplateAdapterOperations<ApprovedLoanReport, String, ApprovedLoanEntity> implements ApprovedLoanReportRepository {
+public class DynamoDBDailySummaryTemplateAdapter extends
+        TemplateAdapterOperations<DailySummaryReport, String, DailySummaryEntity>
+        implements DailySummaryReportRepository {
 
-    public DynamoDBApprovedLoanTemplateAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
+    public DynamoDBDailySummaryTemplateAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
         /**
          *  Could be use mapper.mapBuilder if your domain model implement builder pattern
          *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
          *  Or using mapper.map with the class of the object model
          */
-        super(connectionFactory, mapper, d -> mapper.map(d, ApprovedLoanReport.class),
-                "approved-loans-reports");
+        super(connectionFactory, mapper, d -> mapper.map(d, DailySummaryReport.class),
+                "daily-loan-summaries");
     }
 
-    public Mono<List<ApprovedLoanReport>> getEntityBySomeKeys(String partitionKey, String sortKey) {
+    public Mono<List<DailySummaryReport>> getEntityBySomeKeys(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return query(queryExpression);
     }
 
-    public Mono<List<ApprovedLoanReport>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
+    public Mono<List<DailySummaryReport>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return queryByIndex(queryExpression, "secondary_index" /*index is optional if you define in constructor*/);
     }
@@ -44,7 +46,7 @@ public class DynamoDBApprovedLoanTemplateAdapter extends TemplateAdapterOperatio
     }
     
     @Override
-    public Mono<ApprovedLoanReport> saveApprovedLoan(ApprovedLoanReport approvedLoanReport) {
-        return save(approvedLoanReport);
+    public Mono<DailySummaryReport> getDailySummary(String yearMonth) {
+        return getById(yearMonth);
     }
 }
