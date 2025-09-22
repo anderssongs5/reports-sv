@@ -1,5 +1,6 @@
 package co.com.powerup.ags.reports.api;
 
+import co.com.powerup.ags.reports.api.helper.GlobalErrorAttributes;
 import co.com.powerup.ags.reports.usecase.approvedloanreport.ApprovedLoanReportUseCase;
 import co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,8 @@ import java.math.BigDecimal;
 
 import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {RouterRest.class, Handler.class, RouterRestTest.TestSecurityConfig.class})
+@ContextConfiguration(classes = {RouterRest.class, Handler.class, RouterRestTest.TestSecurityConfig.class,
+        GlobalExceptionHandler.class, GlobalErrorAttributes.class})
 @WebFluxTest
 class RouterRestTest {
 
