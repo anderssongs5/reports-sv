@@ -1,6 +1,8 @@
 package co.com.powerup.ags.reports.dynamodb;
 
 import co.com.powerup.ags.reports.dynamodb.helper.TemplateAdapterOperations;
+import co.com.powerup.ags.reports.model.approvedloanreport.ApprovedLoanReport;
+import co.com.powerup.ags.reports.model.approvedloanreport.gateways.ApprovedLoanReportRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
@@ -11,9 +13,8 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 
 import java.util.List;
 
-
 @Repository
-public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Object /*domain model*/, String, ModelEntity /*adapter model*/> /* implements Gateway from domain */ {
+public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<ApprovedLoanReport, String, ApprovedLoanEntity> implements ApprovedLoanReportRepository {
 
     public DynamoDBTemplateAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
         /**
@@ -21,15 +22,16 @@ public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Object /*
          *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
          *  Or using mapper.map with the class of the object model
          */
-        super(connectionFactory, mapper, d -> mapper.map(d, Object.class /*domain model*/), "table_name", "secondary_index" /*index is optional*/);
+        super(connectionFactory, mapper, d -> mapper.map(d, ApprovedLoanReport.class),
+                "approved-loans-reports", "secondary_index" /*index is optional*/);
     }
 
-    public Mono<List<Object /*domain model*/>> getEntityBySomeKeys(String partitionKey, String sortKey) {
+    public Mono<List<ApprovedLoanReport>> getEntityBySomeKeys(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return query(queryExpression);
     }
 
-    public Mono<List<Object /*domain model*/>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
+    public Mono<List<ApprovedLoanReport>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return queryByIndex(queryExpression, "secondary_index" /*index is optional if you define in constructor*/);
     }
@@ -39,5 +41,10 @@ public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Object /*
                 .queryConditional(QueryConditional.keyEqualTo(Key.builder().partitionValue(partitionKey).build()))
                 .queryConditional(QueryConditional.sortGreaterThanOrEqualTo(Key.builder().sortValue(sortKey).build()))
                 .build();
+    }
+    
+    @Override
+    public Mono<ApprovedLoanReport> saveApprovedLoan(ApprovedLoanReport approvedLoanReport) {
+        return null;
     }
 }
