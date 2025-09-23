@@ -18,7 +18,6 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
 @Configuration
@@ -64,7 +63,7 @@ public class RouterRest {
                         description = "Unauthorized - Invalid or missing authentication token"
                     ),
                     @ApiResponse(
-                        responseCode = "500", 
+                        responseCode = "500",
                         description = "Internal server error occurred while processing the request"
                     )
                 }
@@ -74,7 +73,7 @@ public class RouterRest {
     public RouterFunction<ServerResponse> routerFunction(Handler handler) {
         return RouterFunctions.route()
                 .path("/api/v1/reports", builder -> builder
-                        .GET("", accept(MediaType.APPLICATION_JSON), handler::getApprovedGlobalSummary))
+                        .GET("", handler::getApprovedGlobalSummary))
                 .build();
     }
 }

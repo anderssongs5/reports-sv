@@ -27,8 +27,8 @@ public class OpenApiConfig {
         server.setDescription("Development server");
 
         Contact contact = new Contact();
-        contact.setEmail("maria.gonzalez@powerup.com");
-        contact.setName("María González");
+        contact.setEmail("andersson.garcia@powerup.com");
+        contact.setName("Andersson García");
 
         return new OpenAPI()
                 .info(new Info()

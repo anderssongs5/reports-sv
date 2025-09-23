@@ -32,8 +32,8 @@ class OpenApiConfigTest {
         OpenAPI result = openApiConfig.customOpenAPI();
 
         assertThat(result.getInfo().getContact()).isNotNull();
-        assertThat(result.getInfo().getContact().getName()).isEqualTo("María González");
-        assertThat(result.getInfo().getContact().getEmail()).isEqualTo("maria.gonzalez@powerup.com");
+        assertThat(result.getInfo().getContact().getName()).isEqualTo("Andersson García");
+        assertThat(result.getInfo().getContact().getEmail()).isEqualTo("andersson.garcia@powerup.com");
     }
 
     @Test
