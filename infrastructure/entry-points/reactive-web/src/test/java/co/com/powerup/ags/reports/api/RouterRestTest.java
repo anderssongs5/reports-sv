@@ -2,7 +2,7 @@ package co.com.powerup.ags.reports.api;
 
 import co.com.powerup.ags.reports.api.helper.GlobalErrorAttributes;
 import co.com.powerup.ags.reports.usecase.approvedloanreport.ApprovedLoanReportUseCase;
-import co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary;
+import co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanSummary;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -34,7 +34,7 @@ class RouterRestTest {
 
     @Test
     void shouldReturnApprovedLoanSummaryWhenDataExists() {
-        ApprovedLoanGlobalSummary mockSummary = new ApprovedLoanGlobalSummary(10L, new BigDecimal("50000.00"));
+        ApprovedLoanSummary mockSummary = new ApprovedLoanSummary(10L, new BigDecimal("50000.00"));
         when(approvedLoanReportUseCase.getApprovedLoanGlobalSummary())
                 .thenReturn(Mono.just(mockSummary));
 
@@ -94,7 +94,7 @@ class RouterRestTest {
 
     @Test
     void shouldHandleZeroValuesInResponse() {
-        ApprovedLoanGlobalSummary zeroSummary = new ApprovedLoanGlobalSummary(0L, BigDecimal.ZERO);
+        ApprovedLoanSummary zeroSummary = new ApprovedLoanSummary(0L, BigDecimal.ZERO);
         when(approvedLoanReportUseCase.getApprovedLoanGlobalSummary())
                 .thenReturn(Mono.just(zeroSummary));
 

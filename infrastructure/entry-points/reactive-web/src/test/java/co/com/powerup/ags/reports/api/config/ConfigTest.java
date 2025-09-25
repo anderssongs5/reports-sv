@@ -3,7 +3,7 @@ package co.com.powerup.ags.reports.api.config;
 import co.com.powerup.ags.reports.api.Handler;
 import co.com.powerup.ags.reports.api.RouterRest;
 import co.com.powerup.ags.reports.usecase.approvedloanreport.ApprovedLoanReportUseCase;
-import co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary;
+import co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanSummary;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ class ConfigTest {
     @Test
     void corsConfigurationShouldAllowOrigins() {
         Mockito.when(approvedLoanReportUseCase.getApprovedLoanGlobalSummary())
-                .thenReturn(Mono.just(new ApprovedLoanGlobalSummary(1L, BigDecimal.TWO)));
+                .thenReturn(Mono.just(new ApprovedLoanSummary(1L, BigDecimal.TWO)));
         
         webTestClient.get()
                 .uri("/api/v1/reports")

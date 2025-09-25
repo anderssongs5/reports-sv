@@ -4,6 +4,8 @@ import co.com.powerup.ags.reports.dynamodb.helper.TemplateAdapterOperations;
 import co.com.powerup.ags.reports.model.approvedloanreport.DailySummaryReport;
 import co.com.powerup.ags.reports.model.approvedloanreport.gateways.DailySummaryReportRepository;
 import org.reactivecommons.utils.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
@@ -17,6 +19,8 @@ import java.util.List;
 public class DynamoDBDailySummaryTemplateAdapter extends
         TemplateAdapterOperations<DailySummaryReport, String, DailySummaryEntity>
         implements DailySummaryReportRepository {
+    
+    private static final Logger log = LoggerFactory.getLogger(DynamoDBDailySummaryTemplateAdapter.class);
 
     public DynamoDBDailySummaryTemplateAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
         /**
@@ -46,7 +50,13 @@ public class DynamoDBDailySummaryTemplateAdapter extends
     }
     
     @Override
-    public Mono<DailySummaryReport> getDailySummary(String yearMonth) {
-        return getById(yearMonth);
+    public Mono<DailySummaryReport> getDailySummary(String date) {
+        String key = "DATE#" + date;
+        log.info("Getting daily summary for date: {}, using key: {}", date, key);
+        
+        return this.getById(key)
+                .doOnNext(result -> log.info("Daily summary found: {}", result))
+                .doOnError(error -> log.error("Error getting daily summary for key: {}", key, error))
+                .switchIfEmpty(Mono.fromRunnable(() -> log.warn("No daily summary found for key: {}", key)));
     }
 }

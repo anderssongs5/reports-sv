@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface DailySummaryReportRepository {
     
-    Mono<DailySummaryReport> getDailySummary(String yearMonth);
+    Mono<DailySummaryReport> getDailySummary(String date);
 }

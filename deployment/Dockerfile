@@ -18,7 +18,9 @@ RUN ./gradlew clean bootJar -x test -x validateStructure
 
 FROM openjdk:21-jdk-slim
 
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+# Create user, install packages, and setup permissions in single layer
+RUN groupadd -r appuser && useradd -r -g appuser appuser && \
+    apt-get update && apt-get install -y curl wget && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -32,6 +34,4 @@ ENV SERVER_PORT=8082
 
 EXPOSE ${SERVER_PORT}
 
-ENTRYPOINT ["sh", "-c", "java -jar app.jar \
-    --server.port=${SERVER_PORT} \
-    --security.introspectionBaseUrl=${SECURITY_INTROSPECTION_BASE_URL}"]
+ENTRYPOINT ["sh", "-c", "java -jar app.jar"]

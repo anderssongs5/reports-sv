@@ -3,6 +3,7 @@ package co.com.powerup.ags.reports.api;
 import co.com.powerup.ags.reports.api.dto.ApprovedLoanGlobalSummary;
 import co.com.powerup.ags.reports.api.dto.SuccessResponse;
 import co.com.powerup.ags.reports.usecase.approvedloanreport.ApprovedLoanReportUseCase;
+import co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanSummary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,11 +31,11 @@ class HandlerTest {
     @InjectMocks
     private Handler handler;
 
-    private co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary mockUseCaseResponse;
+    private ApprovedLoanSummary mockUseCaseResponse;
 
     @BeforeEach
     void setUp() {
-        mockUseCaseResponse = new co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary(150L, new BigDecimal("2500000.50"));
+        mockUseCaseResponse = new ApprovedLoanSummary(150L, new BigDecimal("2500000.50"));
     }
 
     @Test
@@ -123,8 +124,8 @@ class HandlerTest {
     @Test
     void shouldHandleZeroValuesInUseCaseResponse() {
         when(serverRequest.path()).thenReturn("/api/v1/reports");
-        co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary zeroValuesResponse = 
-            new co.com.powerup.ags.reports.usecase.approvedloanreport.dto.ApprovedLoanGlobalSummary(0L, BigDecimal.ZERO);
+        ApprovedLoanSummary zeroValuesResponse =
+            new ApprovedLoanSummary(0L, BigDecimal.ZERO);
         when(approvedLoanReportUseCase.getApprovedLoanGlobalSummary())
                 .thenReturn(Mono.just(zeroValuesResponse));
 

@@ -15,9 +15,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class DailySummaryReport {
-    
-    private String yearMonth;
-    private Integer totalCount;
+
+    private Long totalCount;
     private BigDecimal totalAmount;
     private BigDecimal averageAmount;
     private Instant lastUpdated;
